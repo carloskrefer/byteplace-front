@@ -1,9 +1,14 @@
 <div class="container">
-    <app-shared-header-button-hamburger></app-shared-header-button-hamburger>
+    <div class="container-hamburger-logo">
+        <app-shared-header-button-hamburger></app-shared-header-button-hamburger>
+        <img src="../../../assets/images/logo.svg">
+    </div>
     <app-shared-header-search-bar class="search-bar"></app-shared-header-search-bar>
-
-    <div class="container-favorites-cart-buttons">
-        <app-shared-header-button-favorites></app-shared-header-button-favorites>
-        <app-shared-header-button-cart></app-shared-header-button-cart>
+    <div class="container-favorites-cart-user-buttons">
+        <div class="container-favorites-cart-buttons">
+            <app-shared-header-button-favorites></app-shared-header-button-favorites>
+            <app-shared-header-button-cart></app-shared-header-button-cart>
+        </div>
+        <app-shared-header-button-user></app-shared-header-button-user>
     </div>
 </div>

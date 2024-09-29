@@ -1,3 +1,8 @@
-<app-shared-page></app-shared-page>
-
-<!-- <router-outlet /> -->
+<mat-drawer-container class="container">
+    <mat-drawer mode="over">Drawer content</mat-drawer>
+    <mat-drawer-content class="main-content">
+        <app-shared-header></app-shared-header>
+        <div class="spacer"></div>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>

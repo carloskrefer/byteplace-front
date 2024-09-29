@@ -1,13 +1,26 @@
 .container {
     display: flex;
+    align-items: center;
     gap: 100px;
+}
+
+.container-hamburger-logo {
+    display: flex;
+    align-items: center;
+    gap: 24px;
 }
 
 .search-bar {
     flex-grow: 1;
 }
 
+.container-favorites-cart-user-buttons {
+    display: flex;
+    gap: 48px;
+}
+
 .container-favorites-cart-buttons {
     display: flex;
+    align-items: center;
     gap: 24px;
 }

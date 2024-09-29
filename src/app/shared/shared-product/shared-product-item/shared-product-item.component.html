@@ -1,5 +1,5 @@
 <img class="image" src="../../../../assets/images/generic-product.jpg">
 <div class="text-details">
-    <p class="price mat-title-medium">R$ 00,00</p>
-    <p class="name">Nome do produto</p>
+    <p class="price mat-title-medium">R$ {{formattedPrice ? formattedPrice : '00.00'}}</p>
+    <p class="name">{{product?.title ? product?.title : 'Produto sem nome'}}</p>
 </div>

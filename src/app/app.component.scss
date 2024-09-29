@@ -1,9 +1,17 @@
 .container {
+    display:flex;
+    flex-direction: column;
+
+    min-height: 100%;
     background-color: #E3D5C5;
     padding: 20px 48px 0px 48px;
 }
 
 .main-content {
+    flex-grow: 1;
+    // Não funcionou, não sei por que.
+    // Por causa disso fiz flex e column no .container e flex-grow 1 aqui.
+    // min-height: 100%;
     background-color: white;
     border-radius: 30px 30px 0px 0px;
     padding: 20px 20px 48px 20px;

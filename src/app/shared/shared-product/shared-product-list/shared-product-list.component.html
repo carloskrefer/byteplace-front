@@ -1,23 +1,9 @@
 <h5>{{title}}</h5>
 
 <div class="list">
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
-    <app-shared-product-item></app-shared-product-item>
+    @for (product of products; track product.id) {
+        <app-shared-product-item [product]="product"></app-shared-product-item>
+        } @empty {
+        <p>Não há produtos a listar.</p>
+    }
 </div>

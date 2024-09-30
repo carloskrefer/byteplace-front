@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="header">
+        <h2 class="mat-headline-small">{{title}}</h2>
+        <button mat-icon-button (click)="onCloseDialog()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <ng-content></ng-content>
+    <div class="container-buttons-bottom">
+        <button mat-button (click)="onCloseDialog()">Cancelar</button>
+        <button mat-flat-button>Cria conta</button>
+    </div>
+</div>

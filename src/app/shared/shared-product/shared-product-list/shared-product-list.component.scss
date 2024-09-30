@@ -5,6 +5,10 @@
     column-gap: 48px;
 }
 
+.empty-text {
+    color: #8E8E8E;
+}
+
 @media (max-width: 1800px) {
     .list {
         grid-template-columns: repeat(5, 1fr);

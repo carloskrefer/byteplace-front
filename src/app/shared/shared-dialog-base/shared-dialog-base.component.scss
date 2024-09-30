@@ -1,0 +1,14 @@
+.container {
+    padding: 28px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-buttons-bottom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}

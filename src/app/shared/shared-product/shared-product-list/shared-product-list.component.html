@@ -4,6 +4,6 @@
     @for (product of products; track product.id) {
         <app-shared-product-item [product]="product"></app-shared-product-item>
         } @empty {
-        <p>Não há produtos a listar.</p>
+        <p class="empty-text">Não há produtos a listar.</p>
     }
 </div>

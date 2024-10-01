@@ -6,8 +6,10 @@
         </button>
     </div>
     <ng-content></ng-content>
-    <div class="container-buttons-bottom">
-        <button mat-button (click)="onCloseDialog()">Cancelar</button>
-        <button mat-flat-button>Cria conta</button>
-    </div>
+    @if (showButtons) {
+        <div class="container-buttons-bottom">
+            <button mat-button (click)="onCloseDialog()">Cancelar</button>
+            <button mat-flat-button>Cria conta</button>
+        </div>
+    }
 </div>

@@ -1,5 +1,5 @@
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="form-container">
-    @if (hasAuthFailed) {
+    @if (hasAuthFailed$ | async) {
         <app-shared-message-bar class="errorMessageBar" [showIcon]="true" messageType="error">
             Login ou senha incorretos.
         </app-shared-message-bar>

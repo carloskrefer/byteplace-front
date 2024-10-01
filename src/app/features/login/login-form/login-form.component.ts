@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { Observable, Subscription } from 'rxjs';
@@ -29,12 +29,11 @@ import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/sh
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit {
     passwordErrorMessage: string;
     loginErrorMessage: string;
     isPasswordVisible: boolean;
-    hasAuthFailed: boolean;
-    hasAuthFailedSubscription$!: Subscription;
+    hasAuthFailed$!: Observable<boolean>;
     myForm!: FormGroup;
     isAuthenticationLoading$!: Observable<boolean>;
 
@@ -45,19 +44,12 @@ export class LoginFormComponent {
       this.passwordErrorMessage = '';
       this.loginErrorMessage = '';
       this.isPasswordVisible = false;
-      this.hasAuthFailed = false;
     }
 
     ngOnInit(): void {
       this.configureForm();
       this.isAuthenticationLoading$ = this.authService.isLoading$;
-
-      this.hasAuthFailedSubscription$ =
-        this.authService
-            .isLoadingFailure$
-            .subscribe(
-                hasAuthFailed => this.hasAuthFailed = hasAuthFailed
-            );
+      this.hasAuthFailed$ = this.authService.isLoadingFailure$;
     }
 
     private configureForm(): void {
@@ -122,7 +114,4 @@ export class LoginFormComponent {
       }
     }
 
-    ngOnDestroy(): void {
-        this.hasAuthFailedSubscription$.unsubscribe();
-    }
 }

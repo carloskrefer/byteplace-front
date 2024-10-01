@@ -23,7 +23,7 @@ import {
 })
 export class SharedDialogBaseComponent {
     @Input() title: string = 'Caixa de diálogo';
-    @Input() showButtons: boolean = false;
+    @Input() showBottomButtons: boolean = false;
 
     constructor(private dialogRef: MatDialogRef<SharedDialogBaseComponent>) {}
 

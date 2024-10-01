@@ -1,9 +1,8 @@
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="form-container">
     @if (hasAuthFailed) {
-        <!-- <app-message-bar-st [showIcon]="true" messageType="error">
+        <app-shared-message-bar class="errorMessageBar" [showIcon]="true" messageType="error">
             Login ou senha incorretos.
-        </app-message-bar-st> -->
-        Login ou senha incorretos.
+        </app-shared-message-bar>
     }
     <mat-form-field class="username-field" appearance="outline" subscriptSizing="dynamic">
         <mat-label>Login</mat-label>

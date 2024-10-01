@@ -1,0 +1,33 @@
+.info {
+    $info-color: rgb(12, 104, 223);
+    color: $info-color;
+    border-color: $info-color;
+}
+
+.warn {
+    $warn-color: rgb(197, 149, 5);
+    color: $warn-color;
+    border-color: $warn-color;
+}
+
+.message-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+.icon {
+    flex-shrink: 0;
+}
+
+.small-border {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.error {
+    background-color: #ffe2e2;
+    color: #d10000;
+}

@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AsyncPipe } from '@angular/common';
+import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/shared-message-bar.component';
 
 @Component({
   selector: 'app-login-form',
@@ -22,7 +23,8 @@ import { AsyncPipe } from '@angular/common';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    AsyncPipe
+    AsyncPipe,
+    SharedMessageBarComponent
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'

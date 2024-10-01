@@ -1,0 +1,6 @@
+<div [ngClass]="cssClasses" class="message-box">
+    @if (showIcon) {
+        <mat-icon class="icon">{{ iconName }}</mat-icon>
+    }
+    <ng-content></ng-content>
+</div>

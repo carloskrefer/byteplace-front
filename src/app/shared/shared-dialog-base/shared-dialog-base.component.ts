@@ -24,6 +24,7 @@ import {
 export class SharedDialogBaseComponent {
     @Input() title: string = 'Caixa de diálogo';
     @Input() showBottomButtons: boolean = false;
+    @Input() actionButtonName: string = 'Confirmar';
 
     constructor(private dialogRef: MatDialogRef<SharedDialogBaseComponent>) {}
 

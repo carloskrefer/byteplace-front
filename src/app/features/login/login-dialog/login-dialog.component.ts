@@ -3,7 +3,7 @@ import { SharedDialogBaseComponent } from '../../../shared/shared-dialog-base/sh
 import { LoginFormComponent } from '../login-form/login-form.component';
 
 @Component({
-  selector: 'app-login-dialog',
+  selector: 'app-create-account-dialog',
   standalone: true,
   imports: [
     SharedDialogBaseComponent,

@@ -4,11 +4,11 @@
     </mat-icon>
 </button>
 <mat-menu #menu="matMenu" xPosition="before">
-    <button mat-menu-item (click)="openDialog()">
+    <button mat-menu-item (click)="openLoginDialog()">
         <mat-icon>login</mat-icon>
         Entrar
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openCreateAccountDialog()">
         <mat-icon>add_circle_outline</mat-icon>
         Criar conta
     </button>

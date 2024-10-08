@@ -1,9 +1,9 @@
 export class AuthRequestBodyModel {
-    username: string;
-    password: string;
+    email: string;
+    senha: string;
 
-    constructor(username: string, password: string) {
-        this.username = username;
-        this.password = password;
+    constructor(email: string, senha: string) {
+        this.email = email;
+        this.senha = senha;
     }
 }

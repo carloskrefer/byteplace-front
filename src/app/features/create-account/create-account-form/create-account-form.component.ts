@@ -26,10 +26,10 @@ import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/sh
     AsyncPipe,
     SharedMessageBarComponent
   ],
-  templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.scss'
+  templateUrl: './create-account-form.component.html',
+  styleUrl: './create-account-form.component.scss'
 })
-export class LoginFormComponent implements OnInit {
+export class CreateAccountFormComponent implements OnInit {
     passwordErrorMessage: string;
     loginErrorMessage: string;
     isPasswordVisible: boolean;

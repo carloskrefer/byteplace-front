@@ -3,6 +3,7 @@ import { AuthRequestBodyModel } from "../../models/auth-request-body.model";
 import { AuthResponseSuccess } from "./interfaces/auth-response-success";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
+import { constants } from "../../../../constants";
 
 @Injectable({
     providedIn: 'root',
@@ -54,7 +55,7 @@ export class AuthService {
 
         this.httpClient
             .post<AuthResponseSuccess>(
-                'http://localhost:8080/auth/authenticate',
+                constants.backend.endpoints.authenticate,
                 requestBody
             ).subscribe({
                 next: response => {

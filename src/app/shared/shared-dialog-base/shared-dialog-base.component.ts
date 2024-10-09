@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -25,11 +25,18 @@ export class SharedDialogBaseComponent {
     @Input() title: string = 'Caixa de diálogo';
     @Input() showBottomButtons: boolean = false;
     @Input() actionButtonName: string = 'Confirmar';
+    @Input() closeDialogNow: boolean = false;
 
-    constructor(private dialogRef: MatDialogRef<SharedDialogBaseComponent>) {}
+    constructor(private dialogRef: MatDialogRef<SharedDialogBaseComponent>) { }
 
     onCloseDialog() {
         this.dialogRef.close();
     }
 
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['closeDialogNow']) {
+            if (this.closeDialogNow)
+                this.onCloseDialog();
+        }
+    }
 }

@@ -2,9 +2,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FE1C00;
     width: 64px;
     height: 64px;
+}
+
+.button-logged-out {
+    background-color: #FE1C00;
+}
+
+.button-logged-in {
+    background-color: #8E8E8E;
 }
 
 .icon {
@@ -12,5 +19,16 @@
     font-size: $size;
     width: $size;
     height: $size;
+}
+
+.icon-logged-in {
     color: white;
+}
+
+.icon-logged-out {
+    color: white;
+}
+
+.warn-color {
+    color: red !important;
 }

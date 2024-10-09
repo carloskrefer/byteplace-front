@@ -54,8 +54,25 @@ export class CreateAccountFormComponent implements OnInit {
 
     private configureForm(): void {
       this.myForm = new FormGroup({
-        'login': new FormControl(null, [Validators.required]),
-        'password': new FormControl(null, [Validators.required, Validators.minLength(3)])
+        'login':    new FormControl(null, [Validators.required, Validators.email]),
+        'password': new FormControl(null, [Validators.required, Validators.minLength(3)]),
+        'name':     new FormControl(null, [Validators.required, Validators.maxLength(250), Validators.minLength(2)]),
+        'billingAddress': new FormGroup({
+            'postalCode':   new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+            'state':        new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
+            'city':         new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
+            'street':       new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
+            'number':       new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
+            'district':     new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
+        }),
+        'shippingAddress': new FormGroup({
+            'postalCode':   new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+            'state':        new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
+            'city':         new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
+            'street':       new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
+            'number':       new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
+            'district':     new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
+        })
       });
     }
 

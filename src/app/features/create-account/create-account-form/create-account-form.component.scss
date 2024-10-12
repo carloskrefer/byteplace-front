@@ -3,11 +3,18 @@
     flex-direction: column;
 }
 
-.errorMessageBar {
-    margin-bottom: 24px;
+.all-fields-container {
+    flex-grow: 1;
+    overflow: scroll;
 }
 
-.username-field {
+.fields-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.errorMessageBar {
     margin-bottom: 24px;
 }
 

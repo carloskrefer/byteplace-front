@@ -1,0 +1,6 @@
+<mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>Nome completo</mat-label>
+    <input type="text" (blur)="updateErrorMessage()" [formControl]="this.formControl" matInput
+        placeholder="Digite aqui o seu nome.">
+    <mat-error>{{errorMessage}}</mat-error>
+</mat-form-field>

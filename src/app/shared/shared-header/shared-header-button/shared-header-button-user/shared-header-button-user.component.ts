@@ -9,7 +9,7 @@ import { LoginDialogComponent } from '../../../../features/login/login-dialog/lo
 import { AuthService } from '../../../../core/auth/services/auth.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { CreateAccountFormComponent } from '../../../../features/create-account/create-account-form/create-account-form.component';
+import { CreateAccountDialogComponent } from '../../../../features/create-account/create-account-dialog/create-account-dialog.component';
 
 @Component({
     selector: 'app-shared-header-button-user',
@@ -48,7 +48,7 @@ export class SharedHeaderButtonUserComponent implements OnInit {
     }
 
     openCreateAccountDialog(): void {
-        const dialogRef = this.matDialog.open(CreateAccountFormComponent, {
+        const dialogRef = this.matDialog.open(CreateAccountDialogComponent, {
             width: '600px',
             // height: '90%',
             autoFocus: false

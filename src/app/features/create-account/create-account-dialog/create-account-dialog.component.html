@@ -10,12 +10,7 @@
 
         <h3 class="mat-title-medium">Dados básicos</h3>
         <div class="fields-group">
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Nome completo</mat-label>
-                <input type="text" (blur)="updatePasswordErrorMessage()" formControlName="name" matInput
-                    placeholder="Digite aqui o seu nome.">
-                <mat-error>{{nameErrorMessage}}</mat-error>
-            </mat-form-field>
+            <app-shared-form-field-name [configuration]="{formGroup: myForm, name: 'name', formSubmit$: formSubmit$}"></app-shared-form-field-name>
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>E-mail</mat-label>
                 <input (blur)="updateEmailErrorMessage()" id="login" formControlName="login" matInput

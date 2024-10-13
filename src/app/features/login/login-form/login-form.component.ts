@@ -13,7 +13,7 @@ import { AsyncPipe } from '@angular/common';
 import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/shared-message-bar.component';
 
 @Component({
-  selector: 'app-create-account-form',
+  selector: 'app-create-account-dialog',
   standalone: true,
   imports: [
     ReactiveFormsModule,

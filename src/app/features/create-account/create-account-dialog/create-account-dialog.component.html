@@ -11,23 +11,8 @@
         <h3 class="mat-title-medium">Dados básicos</h3>
         <div class="fields-group">
             <app-shared-form-field-name [configuration]="{formGroup: myForm, name: 'name', formSubmit$: formSubmit$}"></app-shared-form-field-name>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>E-mail</mat-label>
-                <input (blur)="updateEmailErrorMessage()" id="login" formControlName="login" matInput
-                    placeholder="Digite aqui o seu e-mail.">
-                <mat-error>{{emailErrorMessage}}</mat-error>
-                <mat-hint>O e-mail informado será utilizado como seu login de acesso.</mat-hint>
-            </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Senha</mat-label>
-                <input [type]="isPasswordVisible ? 'text' : 'password'" id="password"
-                    (blur)="updatePasswordErrorMessage()" formControlName="password" matInput
-                    placeholder="Digite aqui a sua senha.">
-                <button type="button" mat-icon-button matSuffix (click)="isPasswordVisible = !isPasswordVisible">
-                    <mat-icon>{{isPasswordVisible ? 'visibility' : 'visibility_off'}}</mat-icon>
-                </button>
-                <mat-error>{{passwordErrorMessage}}</mat-error>
-            </mat-form-field>
+            <app-shared-form-field-email [configuration]="{formGroup: myForm, name: 'email', formSubmit$: formSubmit$}"></app-shared-form-field-email>
+            <app-shared-form-field-password [configuration]="{formGroup: myForm, name: 'password', formSubmit$: formSubmit$}"></app-shared-form-field-password>
         </div>
         <h3 class="mat-title-medium margin-top-big">Endereço de cobrança</h3>
         <div class="fields-group" formGroupName="billingAddress">

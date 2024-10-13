@@ -12,7 +12,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AsyncPipe } from '@angular/common';
 import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/shared-message-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SharedFormFieldNameComponent } from "../../../shared/shared-form-control/shared-form-field-name/shared-form-field-name.component";
+import { SharedFormFieldNameComponent } from '../../../shared/shared-form-field/shared-form-field-name/shared-form-field-name.component';
+import { SharedFormFieldEmailComponent } from '../../../shared/shared-form-field/shared-form-field-email/shared-form-field-email.component';
+import { SharedFormFieldPasswordComponent } from '../../../shared/shared-form-field/shared-form-field-password/shared-form-field-password.component';
 
 @Component({
     selector: 'app-create-account-dialog',
@@ -28,15 +30,15 @@ import { SharedFormFieldNameComponent } from "../../../shared/shared-form-contro
         AsyncPipe,
         SharedMessageBarComponent,
         MatDialogModule,
-        SharedFormFieldNameComponent
+        SharedFormFieldNameComponent,
+        SharedFormFieldEmailComponent,
+        SharedFormFieldPasswordComponent
     ],
     templateUrl: './create-account-dialog.component.html',
     styleUrl: './create-account-dialog.component.scss'
 })
 export class CreateAccountDialogComponent implements OnInit {
     passwordErrorMessage: string;
-    nameErrorMessage: string
-    emailErrorMessage: string;
     isPasswordVisible: boolean;
     hasAuthFailed$!: Observable<boolean>;
     myForm!: FormGroup;
@@ -50,8 +52,6 @@ export class CreateAccountDialogComponent implements OnInit {
         private authService: AuthService
     ) {
         this.passwordErrorMessage = '';
-        this.emailErrorMessage = '';
-        this.nameErrorMessage = '';
         this.isPasswordVisible = false;
         this.formSubmitSubject$ = new Subject<void>();
         this.formSubmit$ = this.formSubmitSubject$.asObservable();
@@ -65,8 +65,6 @@ export class CreateAccountDialogComponent implements OnInit {
 
     private configureForm(): void {
         this.myForm = new FormGroup({
-            'login': new FormControl(null, [Validators.required, Validators.email]),
-            'password': new FormControl(null, [Validators.required, Validators.minLength(3)]),
             'billingAddress': new FormGroup({
                 'postalCode': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
                 'state': new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
@@ -91,7 +89,7 @@ export class CreateAccountDialogComponent implements OnInit {
         this.updateErrorMessages();
 
         if (this.myForm.invalid) {
-            this.focusOnInvalidField();
+            // this.focusOnInvalidField();
             return;
         }
 
@@ -99,17 +97,16 @@ export class CreateAccountDialogComponent implements OnInit {
     }
 
     private updateErrorMessages(): void {
-        this.updateEmailErrorMessage();
         this.updatePasswordErrorMessage();
     }
 
-    private focusOnInvalidField() {
-        if (this.myForm.controls['login'].invalid) {
-            this.renderer.selectRootElement('#login').focus();
-        } else if (this.myForm.controls['password'].invalid) {
-            this.renderer.selectRootElement('#password').focus();
-        }
-    }
+    // private focusOnInvalidField() {
+    //     if (this.myForm.controls['login'].invalid) {
+    //         this.renderer.selectRootElement('#login').focus();
+    //     } else if (this.myForm.controls['password'].invalid) {
+    //         this.renderer.selectRootElement('#password').focus();
+    //     }
+    // }
 
     private sendLoginHttpRequest() {
         const authRequestBody = new AuthRequestBodyModel(
@@ -118,16 +115,6 @@ export class CreateAccountDialogComponent implements OnInit {
         );
 
         this.authService.sendAuthRequest(authRequestBody);
-    }
-
-    updateEmailErrorMessage(): void {
-        const loginControl = this.myForm.controls['login'];
-
-        if (!loginControl.errors) {
-            this.emailErrorMessage = '';
-        } else if (loginControl.errors['required']) {
-            this.emailErrorMessage = 'O login é obrigatório.';
-        }
     }
 
     updatePasswordErrorMessage(): void {

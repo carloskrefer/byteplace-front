@@ -1,7 +1,9 @@
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="form-container">
-    <div class="all-fields-container">
+<h2 mat-dialog-title>Criar conta</h2>
+<mat-dialog-content>
+    <form [formGroup]="myForm" id="form" (ngSubmit)="onSubmit()" class="form-container">
+
         @if (hasAuthFailed$ | async) {
-        <app-shared-message-bar class="errorMessageBar" [showIcon]="true" messageType="error">
+        <app-shared-message-bar class="margin-bottom-small" [showIcon]="true" messageType="error">
             Login ou senha incorretos.
         </app-shared-message-bar>
         }
@@ -9,16 +11,17 @@
         <h3 class="mat-title-medium">Dados básicos</h3>
         <div class="fields-group">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Email</mat-label>
-                <input (blur)="updateLoginErrorMessage()" id="login" formControlName="login" matInput
-                    placeholder="Digite aqui o seu login.">
-                <mat-error>{{loginErrorMessage}}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Nome</mat-label>
+                <mat-label>Nome completo</mat-label>
                 <input type="text" (blur)="updatePasswordErrorMessage()" formControlName="name" matInput
                     placeholder="Digite aqui o seu nome.">
-                <mat-error>{{passwordErrorMessage}}</mat-error>
+                <mat-error>{{nameErrorMessage}}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>E-mail</mat-label>
+                <input (blur)="updateEmailErrorMessage()" id="login" formControlName="login" matInput
+                    placeholder="Digite aqui o seu e-mail.">
+                <mat-error>{{emailErrorMessage}}</mat-error>
+                <mat-hint>O e-mail informado será utilizado como seu login de acesso.</mat-hint>
             </mat-form-field>
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>Senha</mat-label>
@@ -31,7 +34,7 @@
                 <mat-error>{{passwordErrorMessage}}</mat-error>
             </mat-form-field>
         </div>
-        <h3 class="mat-title-medium">Endereço de cobrança</h3>
+        <h3 class="mat-title-medium margin-top-big">Endereço de cobrança</h3>
         <div class="fields-group" formGroupName="billingAddress">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>CEP</mat-label>
@@ -71,7 +74,7 @@
             </mat-form-field>
         </div>
 
-        <h3 class="mat-title-medium">Endereço de entrega</h3>
+        <h3 class="mat-title-medium margin-top-big">Endereço de entrega</h3>
         <div class="fields-group" formGroupName="shippingAddress">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>CEP</mat-label>
@@ -110,12 +113,15 @@
                 <mat-error>{{passwordErrorMessage}}</mat-error>
             </mat-form-field>
         </div>
-    </div>
-    <button class="login-button" type="submit" mat-flat-button [disabled]="isAuthenticationLoading$ | async">
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button type="submit" form="form" mat-flat-button [disabled]="isAuthenticationLoading$ | async">
         @if (!(isAuthenticationLoading$ | async)) {
         <span>Entrar</span>
         } @else {
         <span><mat-spinner [diameter]="24"></mat-spinner></span>
         }
     </button>
-</form>
+</mat-dialog-actions>

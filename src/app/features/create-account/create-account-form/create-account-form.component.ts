@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AsyncPipe } from '@angular/common';
 import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/shared-message-bar.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-account-form',
@@ -24,14 +25,16 @@ import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/sh
     MatProgressSpinnerModule,
     MatTooltipModule,
     AsyncPipe,
-    SharedMessageBarComponent
+    SharedMessageBarComponent,
+    MatDialogModule
   ],
   templateUrl: './create-account-form.component.html',
   styleUrl: './create-account-form.component.scss'
 })
 export class CreateAccountFormComponent implements OnInit {
     passwordErrorMessage: string;
-    loginErrorMessage: string;
+    nameErrorMessage: string
+    emailErrorMessage: string;
     isPasswordVisible: boolean;
     hasAuthFailed$!: Observable<boolean>;
     myForm!: FormGroup;
@@ -42,7 +45,8 @@ export class CreateAccountFormComponent implements OnInit {
         private authService: AuthService
     ) {
       this.passwordErrorMessage = '';
-      this.loginErrorMessage = '';
+      this.emailErrorMessage = '';
+      this.nameErrorMessage = '';
       this.isPasswordVisible = false;
     }
 
@@ -88,8 +92,9 @@ export class CreateAccountFormComponent implements OnInit {
     }
 
     private updateErrorMessages(): void {
-      this.updateLoginErrorMessage();
+      this.updateEmailErrorMessage();
       this.updatePasswordErrorMessage();
+      this.updateNameErrorMessage();
     }
 
     private focusOnInvalidField() {
@@ -109,13 +114,13 @@ export class CreateAccountFormComponent implements OnInit {
       this.authService.sendAuthRequest(authRequestBody);
     }
 
-    updateLoginErrorMessage(): void {
+    updateEmailErrorMessage(): void {
       const loginControl = this.myForm.controls['login'];
 
       if (!loginControl.errors) {
-        this.loginErrorMessage = '';
+        this.emailErrorMessage = '';
       } else if (loginControl.errors['required']) {
-        this.loginErrorMessage = 'O login é obrigatório.';
+        this.emailErrorMessage = 'O login é obrigatório.';
       }
     }
 
@@ -130,5 +135,17 @@ export class CreateAccountFormComponent implements OnInit {
         this.passwordErrorMessage = 'Exigido pelo menos 3 caracteres.';
       }
     }
+
+    updateNameErrorMessage(): void {
+        const nameControl = this.myForm.controls['name'];
+
+        if (!nameControl.errors) {
+          this.nameErrorMessage = '';
+        } else if (nameControl.errors['required']) {
+          this.nameErrorMessage = 'O nome completo é obrigatório.';
+        } else if (nameControl.errors['minlength']) {
+          this.nameErrorMessage = 'Exigido pelo menos 2 caracteres.';
+        }
+      }
 
 }

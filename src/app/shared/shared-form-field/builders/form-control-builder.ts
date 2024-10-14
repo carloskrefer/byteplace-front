@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
-import { FormControlConfiguration } from "../interfaces/FormControlConfiguration";
+import { FormControlConfiguration } from "../interfaces/form-control-configuration";
 
 export class FormControlBuilder {
     private controlName: string = '';

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormControlConfiguration } from '../interfaces/FormControlConfiguration';
+import { FormControlConfiguration } from '../interfaces/form-control-configuration';
 import { Subscription } from 'rxjs';
 import { FormControlBuilder } from '../builders/form-control-builder';
 import { MatIconModule } from '@angular/material/icon';

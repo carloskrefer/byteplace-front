@@ -1,7 +1,8 @@
-<mat-form-field class="container" appearance="outline" subscriptSizing="dynamic">
-    <mat-label>E-mail</mat-label>
-    <input type="text" (blur)="updateErrorMessage()" [formControl]="this.formControl" matInput
-        placeholder="Digite aqui o seu e-mail.">
-    <mat-error>{{errorMessage}}</mat-error>
-    <mat-hint>O e-mail informado também será utilizado como seu login de acesso.</mat-hint>
-</mat-form-field>
+<app-shared-form-field-base
+    label="E-mail"
+    inputType="text"
+    placeholder="Digite aqui o seu e-mail."
+    hint="O e-mail informado também será utilizado como seu login de acesso."
+    [validations]="validations"
+    [configuration]="configuration"
+></app-shared-form-field-base>

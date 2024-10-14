@@ -22,6 +22,9 @@ import { SharedFormFieldStreetComponent } from "../../../shared/shared-form-fiel
 import { SharedFormFieldBuildingNumberComponent } from "../../../shared/shared-form-field/shared-form-field-building-number/shared-form-field-building-number.component";
 import { SharedFormFieldDistrictComponent } from "../../../shared/shared-form-field/shared-form-field-district/shared-form-field-district.component";
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CreateAccountAddressModel, CreateAccountRequestBodyModel } from '../models/create-account-request-body.model';
+import { CreateAccountService } from '../services/create-account.service';
+import { SharedFormFieldBuildingComplementComponent } from '../../../shared/shared-form-field/shared-form-field-building-complement/shared-form-field-building-complement.component';
 
 @Component({
     selector: 'app-create-account-dialog',
@@ -46,6 +49,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     SharedFormFieldStreetComponent,
     SharedFormFieldBuildingNumberComponent,
     SharedFormFieldDistrictComponent,
+    SharedFormFieldBuildingComplementComponent,
     MatCheckboxModule,
     CommonModule
 ],
@@ -53,13 +57,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     styleUrl: './create-account-dialog.component.scss'
 })
 export class CreateAccountDialogComponent implements OnInit {
-    hasAuthFailed$!: Observable<boolean>;
+    isLoadingFailure$!: Observable<boolean>;
 
     mainFormGroup!: FormGroup;
     billingAddressFormGroup!: FormGroup;
     shippingAddressFormGroup!: FormGroup;
 
-    isAuthenticationLoading$!: Observable<boolean>;
+    isLoading$!: Observable<boolean>;
 
     formSubmitSubject$: Subject<void>;
     formSubmit$: Observable<void>;
@@ -68,7 +72,7 @@ export class CreateAccountDialogComponent implements OnInit {
 
     constructor(
         private renderer: Renderer2,
-        private authService: AuthService
+        private createAccountService: CreateAccountService
     ) {
         this.formSubmitSubject$ = new Subject<void>();
         this.formSubmit$ = this.formSubmitSubject$.asObservable();
@@ -76,8 +80,8 @@ export class CreateAccountDialogComponent implements OnInit {
 
     ngOnInit(): void {
         this.configureForm();
-        this.isAuthenticationLoading$ = this.authService.isLoading$;
-        this.hasAuthFailed$ = this.authService.isLoadingFailure$;
+        this.isLoading$ = this.createAccountService.isLoading$;
+        this.isLoadingFailure$ = this.createAccountService.isLoadingFailure$;
     }
 
     private configureForm(): void {
@@ -91,8 +95,9 @@ export class CreateAccountDialogComponent implements OnInit {
     }
 
     onSubmit(): void {
-        console.log("submit")
-        this.copyBillingToShippingAddressValues();
+        if (this.isBillingShippingAddressSame)
+            this.copyBillingToShippingAddressValues();
+
         this.formSubmitSubject$.next();
 
         if (this.mainFormGroup.invalid) {
@@ -120,12 +125,39 @@ export class CreateAccountDialogComponent implements OnInit {
     }
 
     private sendLoginHttpRequest() {
-        const authRequestBody = new AuthRequestBodyModel(
-            this.mainFormGroup.controls['login'].value,
-            this.mainFormGroup.controls['password'].value
+        let addresses: CreateAccountAddressModel[] = [];
+
+        addresses.push(new CreateAccountAddressModel(
+            this.billingAddressFormGroup.controls['postalCode'].value,
+            this.billingAddressFormGroup.controls['state'].value,
+            this.billingAddressFormGroup.controls['city'].value,
+            this.billingAddressFormGroup.controls['street'].value,
+            this.billingAddressFormGroup.controls['number'].value,
+            this.billingAddressFormGroup.controls['district'].value,
+            this.billingAddressFormGroup.controls['complement'].value,
+            0
+        ));
+
+        addresses.push(new CreateAccountAddressModel(
+            this.shippingAddressFormGroup.controls['postalCode'].value,
+            this.shippingAddressFormGroup.controls['state'].value,
+            this.shippingAddressFormGroup.controls['city'].value,
+            this.shippingAddressFormGroup.controls['street'].value,
+            this.shippingAddressFormGroup.controls['number'].value,
+            this.shippingAddressFormGroup.controls['district'].value,
+            this.shippingAddressFormGroup.controls['complement'].value,
+            1
+        ));
+
+        const createAccountRequestBody = new CreateAccountRequestBodyModel(
+            this.mainFormGroup.controls['name'].value,
+            this.mainFormGroup.controls['email'].value,
+            this.mainFormGroup.controls['password'].value,
+            1,
+            addresses
         );
 
-        this.authService.sendAuthRequest(authRequestBody);
+        this.createAccountService.sendCreateAccountRequest(createAccountRequestBody);
     }
 
 }

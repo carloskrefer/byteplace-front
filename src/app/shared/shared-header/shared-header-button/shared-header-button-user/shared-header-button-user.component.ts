@@ -50,7 +50,6 @@ export class SharedHeaderButtonUserComponent implements OnInit {
     openCreateAccountDialog(): void {
         const dialogRef = this.matDialog.open(CreateAccountDialogComponent, {
             width: '600px',
-            // height: '90%',
             autoFocus: false
         });
     }

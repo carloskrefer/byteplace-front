@@ -21,55 +21,27 @@
             <app-shared-form-field-city             [configuration]="{formGroup: billingAddressFormGroup, name: 'city',         formSubmit$: formSubmit$}"></app-shared-form-field-city>
             <app-shared-form-field-state            [configuration]="{formGroup: billingAddressFormGroup, name: 'state',        formSubmit$: formSubmit$}"></app-shared-form-field-state>
         </div>
-
-        <!-- <h3 class="mat-title-medium margin-top-big">Endereço de entrega</h3>
-        <div class="fields-group" formGroupName="shippingAddress">
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>CEP</mat-label>
-                <input type="number" (blur)="updatePasswordErrorMessage()" formControlName="postalCode" matInput
-                    placeholder="Digite aqui o CEP.">
-                <mat-error>{{passwordErrorMessage}}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Estado</mat-label>
-                <input type="text" (blur)="updatePasswordErrorMessage()" formControlName="state" matInput
-                    placeholder="Digite aqui o estado.">
-                <mat-error>{{passwordErrorMessage}}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Cidade</mat-label>
-                <input type="text" (blur)="updatePasswordErrorMessage()" formControlName="city" matInput
-                    placeholder="Digite aqui a cidade.">
-                <mat-error>{{passwordErrorMessage}}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Rua</mat-label>
-                <input type="text" (blur)="updatePasswordErrorMessage()" formControlName="street" matInput
-                    placeholder="Digite aqui a rua.">
-                <mat-error>{{passwordErrorMessage}}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Número</mat-label>
-                <input type="text" id="password" (blur)="updatePasswordErrorMessage()" formControlName="number" matInput
-                    placeholder="Digite aqui o número.">
-                <mat-error>{{passwordErrorMessage}}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Bairro</mat-label>
-                <input type="text" (blur)="updatePasswordErrorMessage()" formControlName="district" matInput
-                    placeholder="Digite aqui o bairro.">
-                <mat-error>{{passwordErrorMessage}}</mat-error>
-            </mat-form-field>
-        </div> -->
+        <h3 class="mat-title-medium margin-top-big">Endereço de entrega</h3>
+        <mat-checkbox class="margin-bottom-small" [checked]="!isBillingShippingAddressSame" (change)="onCheckboxClick()">
+            Endereço de entrega é diferente do endereço de cobrança.
+        </mat-checkbox>
+        <div [ngClass]="{'hide-element': isBillingShippingAddressSame}" class="fields-group" formGroupName="shippingAddress">
+            <app-shared-form-field-postal-code      [configuration]="{formGroup: shippingAddressFormGroup, name: 'postalCode',   formSubmit$: formSubmit$}"></app-shared-form-field-postal-code>
+            <app-shared-form-field-street           [configuration]="{formGroup: shippingAddressFormGroup, name: 'street',       formSubmit$: formSubmit$}"></app-shared-form-field-street>
+            <app-shared-form-field-building-number  [configuration]="{formGroup: shippingAddressFormGroup, name: 'number',       formSubmit$: formSubmit$}"></app-shared-form-field-building-number>
+            <app-shared-form-field-district         [configuration]="{formGroup: shippingAddressFormGroup, name: 'district',     formSubmit$: formSubmit$}"></app-shared-form-field-district>
+            <app-shared-form-field-city             [configuration]="{formGroup: shippingAddressFormGroup, name: 'city',         formSubmit$: formSubmit$}"></app-shared-form-field-city>
+            <app-shared-form-field-state            [configuration]="{formGroup: shippingAddressFormGroup, name: 'state',        formSubmit$: formSubmit$}"></app-shared-form-field-state>
+        </div>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancelar</button>
     <button type="submit" form="form" mat-flat-button [disabled]="isAuthenticationLoading$ | async">
         @if (!(isAuthenticationLoading$ | async)) {
-        <span>Entrar</span>
+            <span>Confirmar cadastro</span>
         } @else {
-        <span><mat-spinner [diameter]="24"></mat-spinner></span>
+            <span><mat-spinner [diameter]="24"></mat-spinner></span>
         }
     </button>
 </mat-dialog-actions>

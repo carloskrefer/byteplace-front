@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-create-account-dialog',
+  selector: 'app-login-dialog',
   standalone: true,
   imports: [
     SharedDialogBaseComponent,

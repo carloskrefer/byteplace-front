@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/shared-message-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedFormFieldNameComponent } from '../../../shared/shared-form-field/shared-form-field-name/shared-form-field-name.component';
@@ -21,6 +21,7 @@ import { SharedFormFieldStateComponent } from "../../../shared/shared-form-field
 import { SharedFormFieldStreetComponent } from "../../../shared/shared-form-field/shared-form-field-street/shared-form-field-street.component";
 import { SharedFormFieldBuildingNumberComponent } from "../../../shared/shared-form-field/shared-form-field-building-number/shared-form-field-building-number.component";
 import { SharedFormFieldDistrictComponent } from "../../../shared/shared-form-field/shared-form-field-district/shared-form-field-district.component";
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'app-create-account-dialog',
@@ -44,15 +45,16 @@ import { SharedFormFieldDistrictComponent } from "../../../shared/shared-form-fi
     SharedFormFieldStateComponent,
     SharedFormFieldStreetComponent,
     SharedFormFieldBuildingNumberComponent,
-    SharedFormFieldDistrictComponent
+    SharedFormFieldDistrictComponent,
+    MatCheckboxModule,
+    CommonModule
 ],
     templateUrl: './create-account-dialog.component.html',
     styleUrl: './create-account-dialog.component.scss'
 })
 export class CreateAccountDialogComponent implements OnInit {
-    passwordErrorMessage: string;
-    isPasswordVisible: boolean;
     hasAuthFailed$!: Observable<boolean>;
+
     mainFormGroup!: FormGroup;
     billingAddressFormGroup!: FormGroup;
     shippingAddressFormGroup!: FormGroup;
@@ -62,12 +64,12 @@ export class CreateAccountDialogComponent implements OnInit {
     formSubmitSubject$: Subject<void>;
     formSubmit$: Observable<void>;
 
+    isBillingShippingAddressSame: boolean = true;
+
     constructor(
         private renderer: Renderer2,
         private authService: AuthService
     ) {
-        this.passwordErrorMessage = '';
-        this.isPasswordVisible = false;
         this.formSubmitSubject$ = new Subject<void>();
         this.formSubmit$ = this.formSubmitSubject$.asObservable();
     }
@@ -89,8 +91,9 @@ export class CreateAccountDialogComponent implements OnInit {
     }
 
     onSubmit(): void {
+        console.log("submit")
+        this.copyBillingToShippingAddressValues();
         this.formSubmitSubject$.next();
-        this.updateErrorMessages();
 
         if (this.mainFormGroup.invalid) {
             // this.focusOnInvalidField();
@@ -100,8 +103,8 @@ export class CreateAccountDialogComponent implements OnInit {
         this.sendLoginHttpRequest();
     }
 
-    private updateErrorMessages(): void {
-        this.updatePasswordErrorMessage();
+    private copyBillingToShippingAddressValues() {
+        this.shippingAddressFormGroup.patchValue(this.billingAddressFormGroup.value);
     }
 
     // private focusOnInvalidField() {
@@ -112,6 +115,10 @@ export class CreateAccountDialogComponent implements OnInit {
     //     }
     // }
 
+    onCheckboxClick() {
+        this.isBillingShippingAddressSame = !this.isBillingShippingAddressSame;
+    }
+
     private sendLoginHttpRequest() {
         const authRequestBody = new AuthRequestBodyModel(
             this.mainFormGroup.controls['login'].value,
@@ -119,18 +126,6 @@ export class CreateAccountDialogComponent implements OnInit {
         );
 
         this.authService.sendAuthRequest(authRequestBody);
-    }
-
-    updatePasswordErrorMessage(): void {
-        const passwordControl = this.mainFormGroup.controls['password'];
-
-        if (!passwordControl.errors) {
-            this.passwordErrorMessage = '';
-        } else if (passwordControl.errors['required']) {
-            this.passwordErrorMessage = 'A senha é obrigatória.';
-        } else if (passwordControl.errors['minlength']) {
-            this.passwordErrorMessage = 'Exigido pelo menos 3 caracteres.';
-        }
     }
 
 }

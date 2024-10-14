@@ -1,6 +1,7 @@
-<mat-form-field class="container" appearance="outline" subscriptSizing="dynamic">
-    <mat-label>Nome</mat-label>
-    <input type="text" (blur)="updateErrorMessage()" [formControl]="this.formControl" matInput
-        placeholder="Digite aqui o seu nome.">
-    <mat-error>{{errorMessage}}</mat-error>
-</mat-form-field>
+<app-shared-form-field-base
+    label="Nome"
+    inputType="text"
+    placeholder="Digite aqui o seu nome."
+    [validations]="validations"
+    [configuration]="configuration"
+></app-shared-form-field-base>

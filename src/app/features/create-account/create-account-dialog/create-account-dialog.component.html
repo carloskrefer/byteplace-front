@@ -17,10 +17,10 @@
             <app-shared-form-field-postal-code          [configuration]="{formGroup: billingAddressFormGroup, name: 'postalCode',   formSubmit$: formSubmit$}"></app-shared-form-field-postal-code>
             <app-shared-form-field-street               [configuration]="{formGroup: billingAddressFormGroup, name: 'street',       formSubmit$: formSubmit$}"></app-shared-form-field-street>
             <app-shared-form-field-building-number      [configuration]="{formGroup: billingAddressFormGroup, name: 'number',       formSubmit$: formSubmit$}"></app-shared-form-field-building-number>
+            <app-shared-form-field-building-complement  [configuration]="{formGroup: billingAddressFormGroup, name: 'complement',   formSubmit$: formSubmit$}"></app-shared-form-field-building-complement>
             <app-shared-form-field-district             [configuration]="{formGroup: billingAddressFormGroup, name: 'district',     formSubmit$: formSubmit$}"></app-shared-form-field-district>
             <app-shared-form-field-city                 [configuration]="{formGroup: billingAddressFormGroup, name: 'city',         formSubmit$: formSubmit$}"></app-shared-form-field-city>
             <app-shared-form-field-state                [configuration]="{formGroup: billingAddressFormGroup, name: 'state',        formSubmit$: formSubmit$}"></app-shared-form-field-state>
-            <app-shared-form-field-building-complement  [configuration]="{formGroup: billingAddressFormGroup, name: 'complement',   formSubmit$: formSubmit$}"></app-shared-form-field-building-complement>
         </div>
         <h3 class="mat-title-medium margin-top-big">Endereço de entrega</h3>
         <mat-checkbox class="margin-bottom-small" [checked]="!isBillingShippingAddressSame" (change)="onCheckboxClick()">
@@ -30,10 +30,10 @@
             <app-shared-form-field-postal-code          [configuration]="{formGroup: shippingAddressFormGroup, name: 'postalCode',  formSubmit$: formSubmit$}"></app-shared-form-field-postal-code>
             <app-shared-form-field-street               [configuration]="{formGroup: shippingAddressFormGroup, name: 'street',      formSubmit$: formSubmit$}"></app-shared-form-field-street>
             <app-shared-form-field-building-number      [configuration]="{formGroup: shippingAddressFormGroup, name: 'number',      formSubmit$: formSubmit$}"></app-shared-form-field-building-number>
+            <app-shared-form-field-building-complement  [configuration]="{formGroup: shippingAddressFormGroup, name: 'complement',  formSubmit$: formSubmit$}"></app-shared-form-field-building-complement>
             <app-shared-form-field-district             [configuration]="{formGroup: shippingAddressFormGroup, name: 'district',    formSubmit$: formSubmit$}"></app-shared-form-field-district>
             <app-shared-form-field-city                 [configuration]="{formGroup: shippingAddressFormGroup, name: 'city',        formSubmit$: formSubmit$}"></app-shared-form-field-city>
             <app-shared-form-field-state                [configuration]="{formGroup: shippingAddressFormGroup, name: 'state',       formSubmit$: formSubmit$}"></app-shared-form-field-state>
-            <app-shared-form-field-building-complement  [configuration]="{formGroup: shippingAddressFormGroup, name: 'complement',  formSubmit$: formSubmit$}"></app-shared-form-field-building-complement>
         </div>
     </form>
 </mat-dialog-content>

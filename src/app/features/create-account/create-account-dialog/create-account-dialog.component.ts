@@ -1,8 +1,6 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../core/auth/services/auth.service';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { AuthRequestBodyModel } from '../../../core/models/auth-request-body.model';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -58,30 +56,22 @@ import { SharedFormFieldBuildingComplementComponent } from '../../../shared/shar
 })
 export class CreateAccountDialogComponent implements OnInit {
     isLoadingFailure$!: Observable<boolean>;
+    isLoading$!: Observable<boolean>;
+
+    formSubmitSubject$: Subject<void> = new Subject<void>();
+    formSubmit$!: Observable<void>;
 
     mainFormGroup!: FormGroup;
     billingAddressFormGroup!: FormGroup;
     shippingAddressFormGroup!: FormGroup;
 
-    isLoading$!: Observable<boolean>;
-
-    formSubmitSubject$: Subject<void>;
-    formSubmit$: Observable<void>;
-
     isBillingShippingAddressSame: boolean = true;
 
-    constructor(
-        private renderer: Renderer2,
-        private createAccountService: CreateAccountService
-    ) {
-        this.formSubmitSubject$ = new Subject<void>();
-        this.formSubmit$ = this.formSubmitSubject$.asObservable();
-    }
+    constructor(private createAccountService: CreateAccountService) {}
 
     ngOnInit(): void {
         this.configureForm();
-        this.isLoading$ = this.createAccountService.isLoading$;
-        this.isLoadingFailure$ = this.createAccountService.isLoadingFailure$;
+        this.configureObservables();
     }
 
     private configureForm(): void {
@@ -92,6 +82,12 @@ export class CreateAccountDialogComponent implements OnInit {
             'billingAddress': this.billingAddressFormGroup,
             'shippingAddress': this.shippingAddressFormGroup
         });
+    }
+
+    private configureObservables() {
+        this.formSubmit$ = this.formSubmitSubject$.asObservable();
+        this.isLoading$ = this.createAccountService.isLoading$;
+        this.isLoadingFailure$ = this.createAccountService.isLoadingFailure$;
     }
 
     onSubmit(): void {

@@ -57,10 +57,6 @@ export class CreateAccountService {
             });
     }
 
-    logOut() {
-        this.resetAuthState();
-    }
-
     private resetAuthState() {
         this.isLoadingSubject.next(false);
         this.isLoadingSuccessSubject.next(false);

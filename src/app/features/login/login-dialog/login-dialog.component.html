@@ -1,3 +1,22 @@
-<app-shared-dialog-base title="Entrar em sua conta" [closeDialogNow]="(hasAuthSucceeded$ | async) || false">
-    <app-create-account-dialog></app-create-account-dialog>
-</app-shared-dialog-base>
+<h2 mat-dialog-title>Entrar em sua conta</h2>
+@if (hasAuthFailed$ | async) {
+    <app-shared-message-bar class="margin-bottom-small" [showIcon]="true" messageType="error">
+        Login ou senha incorretos.
+    </app-shared-message-bar>
+}
+<mat-dialog-content>
+    <form id="form" [formGroup]="myForm" (ngSubmit)="onSubmit()" class="fields-group">
+        <app-shared-form-field-email    [configuration]="{formGroup: myForm, name: 'email',      formSubmit$: formSubmit$}"></app-shared-form-field-email>
+        <app-shared-form-field-password [configuration]="{formGroup: myForm, name: 'password',   formSubmit$: formSubmit$}"></app-shared-form-field-password>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button type="submit" form="form" mat-flat-button [disabled]="isAuthLoading$ | async">
+        @if (!(isAuthLoading$ | async)) {
+            <span>Entrar</span>
+        } @else {
+            <span><mat-spinner [diameter]="24"></mat-spinner></span>
+        }
+    </button>
+</mat-dialog-actions>

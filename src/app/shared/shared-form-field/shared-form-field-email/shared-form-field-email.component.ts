@@ -43,5 +43,10 @@ export class SharedFormFieldEmailComponent implements OnInit {
             validatorName: 'email',
             errorMessage: 'O e-mail deve incluir o nome do seu usuário, o caractere "@" e o nome do provedor.'
         });
+        this.validations.push({
+            validator: Validators.maxLength(50),
+            validatorName: 'maxlength',
+            errorMessage: 'Ultrapassado o limite máximo de 50 caracteres.'
+        });
     }
 }

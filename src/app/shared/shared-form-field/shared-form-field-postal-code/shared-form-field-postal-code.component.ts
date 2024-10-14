@@ -1,28 +1,19 @@
 import { Component, Input } from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { FormControlConfiguration } from '../interfaces/form-control-configuration';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { FormControlValidationModel } from '../models/form-control-validation.model';
+import { Validators } from '@angular/forms';
 import { SharedFormFieldBaseComponent } from '../shared-form-field-base/shared-form-field-base.component';
 
 @Component({
-  selector: 'app-shared-form-field-password',
+  selector: 'app-shared-form-field-postal-code',
   standalone: true,
   imports: [
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
     SharedFormFieldBaseComponent
   ],
-  templateUrl: './shared-form-field-password.component.html',
-  styleUrl: './shared-form-field-password.component.scss'
+  templateUrl: './shared-form-field-postal-code.component.html',
+  styleUrl: './shared-form-field-postal-code.component.scss'
 })
-export class SharedFormFieldPasswordComponent {
+export class SharedFormFieldPostalCodeComponent {
     @Input() configuration!: FormControlConfiguration;
 
     validations: FormControlValidationModel[] = [];
@@ -35,17 +26,17 @@ export class SharedFormFieldPasswordComponent {
         this.validations.push({
             validator: Validators.required,
             validatorName: 'required',
-            errorMessage: 'A senha é obrigatória.'
+            errorMessage: 'O CEP é obrigatório.'
         });
         this.validations.push({
-            validator: Validators.minLength(3),
+            validator: Validators.minLength(8),
             validatorName: 'minlength',
-            errorMessage: 'Exigido pelo menos 3 caracteres.'
+            errorMessage: 'O CEP deverá possuir 8 números.'
         });
         this.validations.push({
-            validator: Validators.maxLength(50),
+            validator: Validators.maxLength(8),
             validatorName: 'maxlength',
-            errorMessage: 'Ultrapassado o limite máximo de 50 caracteres.'
+            errorMessage: 'O CEP deverá possuir 8 números.'
         });
     }
 }

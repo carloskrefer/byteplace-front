@@ -1,24 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { Component, Input } from '@angular/core';
 import { FormControlConfiguration } from '../interfaces/form-control-configuration';
-import { SharedFormFieldBaseComponent } from '../shared-form-field-base/shared-form-field-base.component';
 import { FormControlValidationModel } from '../models/form-control-validation.model';
+import { Validators } from '@angular/forms';
+import { SharedFormFieldBaseComponent } from '../shared-form-field-base/shared-form-field-base.component';
 
 @Component({
-  selector: 'app-shared-form-field-name',
+  selector: 'app-shared-form-field-city',
   standalone: true,
   imports: [
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
     SharedFormFieldBaseComponent
   ],
-  templateUrl: './shared-form-field-name.component.html',
-  styleUrl: './shared-form-field-name.component.scss'
+  templateUrl: './shared-form-field-city.component.html',
+  styleUrl: './shared-form-field-city.component.scss'
 })
-export class SharedFormFieldNameComponent implements OnInit {
+export class SharedFormFieldCityComponent {
     @Input() configuration!: FormControlConfiguration;
 
     validations: FormControlValidationModel[] = [];
@@ -31,7 +26,7 @@ export class SharedFormFieldNameComponent implements OnInit {
         this.validations.push({
             validator: Validators.required,
             validatorName: 'required',
-            errorMessage: 'O nome é obrigatório.'
+            errorMessage: 'A cidade é obrigatória.'
         });
         this.validations.push({
             validator: Validators.minLength(2),

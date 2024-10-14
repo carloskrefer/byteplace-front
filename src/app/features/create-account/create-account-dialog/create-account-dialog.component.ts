@@ -15,25 +15,37 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SharedFormFieldNameComponent } from '../../../shared/shared-form-field/shared-form-field-name/shared-form-field-name.component';
 import { SharedFormFieldEmailComponent } from '../../../shared/shared-form-field/shared-form-field-email/shared-form-field-email.component';
 import { SharedFormFieldPasswordComponent } from '../../../shared/shared-form-field/shared-form-field-password/shared-form-field-password.component';
+import { SharedFormFieldPostalCodeComponent } from '../../../shared/shared-form-field/shared-form-field-postal-code/shared-form-field-postal-code.component';
+import { SharedFormFieldCityComponent } from "../../../shared/shared-form-field/shared-form-field-city/shared-form-field-city.component";
+import { SharedFormFieldStateComponent } from "../../../shared/shared-form-field/shared-form-field-state/shared-form-field-state.component";
+import { SharedFormFieldStreetComponent } from "../../../shared/shared-form-field/shared-form-field-street/shared-form-field-street.component";
+import { SharedFormFieldBuildingNumberComponent } from "../../../shared/shared-form-field/shared-form-field-building-number/shared-form-field-building-number.component";
+import { SharedFormFieldDistrictComponent } from "../../../shared/shared-form-field/shared-form-field-district/shared-form-field-district.component";
 
 @Component({
     selector: 'app-create-account-dialog',
     standalone: true,
     imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatButtonModule,
-        MatProgressSpinnerModule,
-        MatTooltipModule,
-        AsyncPipe,
-        SharedMessageBarComponent,
-        MatDialogModule,
-        SharedFormFieldNameComponent,
-        SharedFormFieldEmailComponent,
-        SharedFormFieldPasswordComponent
-    ],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    AsyncPipe,
+    SharedMessageBarComponent,
+    MatDialogModule,
+    SharedFormFieldNameComponent,
+    SharedFormFieldEmailComponent,
+    SharedFormFieldPasswordComponent,
+    SharedFormFieldPostalCodeComponent,
+    SharedFormFieldCityComponent,
+    SharedFormFieldStateComponent,
+    SharedFormFieldStreetComponent,
+    SharedFormFieldBuildingNumberComponent,
+    SharedFormFieldDistrictComponent
+],
     templateUrl: './create-account-dialog.component.html',
     styleUrl: './create-account-dialog.component.scss'
 })
@@ -41,7 +53,10 @@ export class CreateAccountDialogComponent implements OnInit {
     passwordErrorMessage: string;
     isPasswordVisible: boolean;
     hasAuthFailed$!: Observable<boolean>;
-    myForm!: FormGroup;
+    mainFormGroup!: FormGroup;
+    billingAddressFormGroup!: FormGroup;
+    shippingAddressFormGroup!: FormGroup;
+
     isAuthenticationLoading$!: Observable<boolean>;
 
     formSubmitSubject$: Subject<void>;
@@ -64,23 +79,12 @@ export class CreateAccountDialogComponent implements OnInit {
     }
 
     private configureForm(): void {
-        this.myForm = new FormGroup({
-            'billingAddress': new FormGroup({
-                'postalCode': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-                'state': new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
-                'city': new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
-                'street': new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
-                'number': new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
-                'district': new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
-            }),
-            'shippingAddress': new FormGroup({
-                'postalCode': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-                'state': new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
-                'city': new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(250)]),
-                'street': new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
-                'number': new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
-                'district': new FormControl(null, [Validators.minLength(2), Validators.maxLength(250)]),
-            })
+        this.billingAddressFormGroup = new FormGroup({});
+        this.shippingAddressFormGroup = new FormGroup({});
+
+        this.mainFormGroup = new FormGroup({
+            'billingAddress': this.billingAddressFormGroup,
+            'shippingAddress': this.shippingAddressFormGroup
         });
     }
 
@@ -88,7 +92,7 @@ export class CreateAccountDialogComponent implements OnInit {
         this.formSubmitSubject$.next();
         this.updateErrorMessages();
 
-        if (this.myForm.invalid) {
+        if (this.mainFormGroup.invalid) {
             // this.focusOnInvalidField();
             return;
         }
@@ -101,24 +105,24 @@ export class CreateAccountDialogComponent implements OnInit {
     }
 
     // private focusOnInvalidField() {
-    //     if (this.myForm.controls['login'].invalid) {
+    //     if (this.mainFormGroup.controls['login'].invalid) {
     //         this.renderer.selectRootElement('#login').focus();
-    //     } else if (this.myForm.controls['password'].invalid) {
+    //     } else if (this.mainFormGroup.controls['password'].invalid) {
     //         this.renderer.selectRootElement('#password').focus();
     //     }
     // }
 
     private sendLoginHttpRequest() {
         const authRequestBody = new AuthRequestBodyModel(
-            this.myForm.controls['login'].value,
-            this.myForm.controls['password'].value
+            this.mainFormGroup.controls['login'].value,
+            this.mainFormGroup.controls['password'].value
         );
 
         this.authService.sendAuthRequest(authRequestBody);
     }
 
     updatePasswordErrorMessage(): void {
-        const passwordControl = this.myForm.controls['password'];
+        const passwordControl = this.mainFormGroup.controls['password'];
 
         if (!passwordControl.errors) {
             this.passwordErrorMessage = '';

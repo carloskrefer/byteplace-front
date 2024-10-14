@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-export type InputType = 'text' | 'password';
+export type InputType = 'text' | 'password' | 'number';
 
 @Component({
   selector: 'app-shared-form-field-base',

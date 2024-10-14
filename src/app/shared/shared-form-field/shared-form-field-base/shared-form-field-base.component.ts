@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, input, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -6,8 +6,10 @@ import { FormControlConfiguration } from '../interfaces/form-control-configurati
 import { FormControlBuilder } from '../builders/form-control-builder';
 import { FormControlValidationModel } from '../models/form-control-validation.model';
 import { Subscription } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
-type InputType = 'text' | 'password';
+export type InputType = 'text' | 'password';
 
 @Component({
   selector: 'app-shared-form-field-base',
@@ -15,7 +17,9 @@ type InputType = 'text' | 'password';
   imports: [
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule
   ],
   templateUrl: './shared-form-field-base.component.html',
   styleUrl: './shared-form-field-base.component.scss'
@@ -30,6 +34,7 @@ export class SharedFormFieldBaseComponent implements OnInit, OnDestroy {
 
     formControl!: FormControl;
     errorMessage: string = '';
+    visibilityButtonShowsPassword: boolean = false;
 
     formSubmitSubscription!: Subscription;
 
@@ -55,6 +60,13 @@ export class SharedFormFieldBaseComponent implements OnInit, OnDestroy {
 
     private onFormSubmit() {
         this.updateErrorMessage();
+    }
+
+    getInputTypeBasedOnVisibility(): InputType {
+        if (this.inputType == 'password' && this.visibilityButtonShowsPassword)
+            return 'text';
+
+        return this.inputType;
     }
 
     updateErrorMessage() {

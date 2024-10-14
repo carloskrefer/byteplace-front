@@ -1,7 +1,13 @@
 <mat-form-field class="container" appearance="outline" subscriptSizing="dynamic">
     <mat-label>{{label}}</mat-label>
-    <input [type]="inputType" (blur)="updateErrorMessage()" [formControl]="this.formControl" matInput
-        [placeholder]="placeholder">
+    <input [type]="getInputTypeBasedOnVisibility()" (blur)="updateErrorMessage()" [formControl]="this.formControl"
+        matInput [placeholder]="placeholder">
+    @if (inputType == 'password') {
+        <button type="button" mat-icon-button matSuffix
+            (click)="visibilityButtonShowsPassword = !visibilityButtonShowsPassword">
+            <mat-icon>{{visibilityButtonShowsPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+    }
     <mat-error>{{errorMessage}}</mat-error>
     <mat-hint>{{hint}}</mat-hint>
 </mat-form-field>

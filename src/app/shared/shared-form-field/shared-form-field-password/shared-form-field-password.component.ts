@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormControlConfiguration } from '../interfaces/form-control-configuration';
-import { Subscription } from 'rxjs';
-import { FormControlBuilder } from '../builders/form-control-builder';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { FormControlValidationModel } from '../models/form-control-validation.model';
+import { SharedFormFieldBaseComponent } from '../shared-form-field-base/shared-form-field-base.component';
 
 @Component({
   selector: 'app-shared-form-field-password',
@@ -16,7 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    SharedFormFieldBaseComponent
   ],
   templateUrl: './shared-form-field-password.component.html',
   styleUrl: './shared-form-field-password.component.scss'
@@ -24,43 +25,22 @@ import { MatButtonModule } from '@angular/material/button';
 export class SharedFormFieldPasswordComponent {
     @Input() configuration!: FormControlConfiguration;
 
-    formControl!: FormControl;
-    errorMessage: string = '';
-    isPasswordVisible: boolean = false;
-
-    formSubmitSubscription!: Subscription;
+    validations: FormControlValidationModel[] = [];
 
     ngOnInit() {
-        this.createFormControl();
-        this.subscribeFormSubmitEvent();
+        this.createFormControlValidations();
     }
 
-    private createFormControl() {
-        this.formControl = new FormControlBuilder()
-            .withValidators([Validators.required, Validators.minLength(5), Validators.email])
-            .addToFormGroup(this.configuration.formGroup, this.configuration.name)
-            .build();
-    }
-
-    private subscribeFormSubmitEvent() {
-        this.formSubmitSubscription =
-            this
-                .configuration
-                .formSubmit$
-                .subscribe(() => this.onFormSubmit());
-    }
-
-    private onFormSubmit() {
-        this.updateErrorMessage();
-    }
-
-    updateErrorMessage() {
-        if (!this.formControl.errors) {
-          this.errorMessage = '';
-        } else if (this.formControl.errors['required']) {
-          this.errorMessage = 'A senha é obrigatória.';
-        } else if (this.formControl.errors['minlength']) {
-          this.errorMessage = 'Exigido pelo menos 5 caracteres.';
-        }
+    createFormControlValidations() {
+        this.validations.push({
+            validator: Validators.required,
+            validatorName: 'required',
+            errorMessage: 'A senha é obrigatória.'
+        });
+        this.validations.push({
+            validator: Validators.minLength(3),
+            validatorName: 'minlength',
+            errorMessage: 'Exigido pelo menos 3 caracteres.'
+        });
     }
 }

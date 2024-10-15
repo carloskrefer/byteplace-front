@@ -15,4 +15,8 @@ export class SharedProductListComponent {
     @Input() title: string = '';
     @Input() products: ProductModel[] = [];
 
+    trackByIndex(index: number, item: string): number {
+        return index;
+    }
+
 }

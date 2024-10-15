@@ -1,7 +1,7 @@
 <h5>{{title}}</h5>
 
 <div class="list">
-    @for (product of products; track product.id) {
+    @for (product of products; track trackByIndex) {
         <app-shared-product-item [product]="product"></app-shared-product-item>
         } @empty {
         <p class="empty-text">Não há produtos a listar.</p>

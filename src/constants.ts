@@ -4,7 +4,8 @@ export const constants = {
     backend: {
         endpoints: {
             register: `${backendUrl}/auth/register`,
-            authenticate: `${backendUrl}/auth/authenticate`
+            authenticate: `${backendUrl}/auth/authenticate`,
+            products: `${backendUrl}/products`
         }
     }
 

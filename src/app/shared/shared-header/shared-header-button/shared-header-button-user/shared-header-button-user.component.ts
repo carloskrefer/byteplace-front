@@ -10,6 +10,7 @@ import { AuthService } from '../../../../core/auth/services/auth.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { CreateAccountDialogComponent } from '../../../../features/create-account/create-account-dialog/create-account-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-shared-header-button-user',
@@ -27,7 +28,11 @@ import { CreateAccountDialogComponent } from '../../../../features/create-accoun
 export class SharedHeaderButtonUserComponent implements OnInit {
     isLoggedIn$!: Observable<boolean>;
 
-    constructor(private matDialog: MatDialog, private authService: AuthService) {}
+    constructor(
+        private matDialog: MatDialog,
+        private authService: AuthService,
+        private snackbar: MatSnackBar
+    ) {}
 
     ngOnInit() {
         this.isLoggedIn$ = this.authService.isLoadingSuccess$;
@@ -56,5 +61,10 @@ export class SharedHeaderButtonUserComponent implements OnInit {
 
     logOut() {
         this.authService.logOut();
+        this.showLogoutSnackbar();
+    }
+
+    showLogoutSnackbar() {
+        this.snackbar.open('Logout realizado com sucesso.', "Ok", {duration: 5000, verticalPosition: 'top'})
     }
 }

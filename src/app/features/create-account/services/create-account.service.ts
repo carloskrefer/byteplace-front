@@ -37,7 +37,7 @@ export class CreateAccountService {
     }
 
     sendCreateAccountRequest(requestBody: CreateAccountRequestBodyModel) {
-        this.resetAuthState();
+        this.resetCreateAccountState();
         this.isLoadingSubject.next(true);
 
         this.httpClient
@@ -57,7 +57,7 @@ export class CreateAccountService {
             });
     }
 
-    private resetAuthState() {
+    resetCreateAccountState() {
         this.isLoadingSubject.next(false);
         this.isLoadingSuccessSubject.next(false);
         this.isLoadingFailureSubject.next(false);

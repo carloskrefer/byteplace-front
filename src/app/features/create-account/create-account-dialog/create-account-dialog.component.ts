@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { SharedMessageBarComponent } from '../../../shared/shared-message-bar/shared-message-bar.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { SharedFormFieldNameComponent } from '../../../shared/shared-form-field/shared-form-field-name/shared-form-field-name.component';
 import { SharedFormFieldEmailComponent } from '../../../shared/shared-form-field/shared-form-field-email/shared-form-field-email.component';
 import { SharedFormFieldPasswordComponent } from '../../../shared/shared-form-field/shared-form-field-password/shared-form-field-password.component';
@@ -23,6 +23,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateAccountAddressModel, CreateAccountRequestBodyModel } from '../models/create-account-request-body.model';
 import { CreateAccountService } from '../services/create-account.service';
 import { SharedFormFieldBuildingComplementComponent } from '../../../shared/shared-form-field/shared-form-field-building-complement/shared-form-field-building-complement.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-create-account-dialog',
@@ -58,6 +59,8 @@ export class CreateAccountDialogComponent implements OnInit {
     isLoadingFailure$!: Observable<boolean>;
     isLoading$!: Observable<boolean>;
 
+    isLoadingSuccessSubscription!: Subscription;
+
     formSubmitSubject$: Subject<void> = new Subject<void>();
     formSubmit$!: Observable<void>;
 
@@ -67,11 +70,16 @@ export class CreateAccountDialogComponent implements OnInit {
 
     isBillingShippingAddressSame: boolean = true;
 
-    constructor(private createAccountService: CreateAccountService) {}
+    constructor(
+        private createAccountService: CreateAccountService,
+        private dialogRef: MatDialogRef<CreateAccountDialogComponent>,
+        private snackbar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.configureForm();
         this.configureObservables();
+        this.subscribeToCreateAccountSuccess();
     }
 
     private configureForm(): void {
@@ -90,37 +98,50 @@ export class CreateAccountDialogComponent implements OnInit {
         this.isLoadingFailure$ = this.createAccountService.isLoadingFailure$;
     }
 
+    private subscribeToCreateAccountSuccess() {
+        this.createAccountService.isLoadingSuccess$.subscribe(
+            isLoadingSuccess => {
+                if (isLoadingSuccess)
+                    this.onCreateAccountSuccess();
+            }
+        );
+    }
+
+    onCreateAccountSuccess() {
+        this.showSuccessSnackbar();
+        this.closeDialog();
+    }
+
+    closeDialog() {
+        this.createAccountService.resetCreateAccountState();
+        this.dialogRef.close();
+    }
+
+    showSuccessSnackbar() {
+        this.snackbar.open('Conta criada com sucesso!', "Ok", {duration: 5000, verticalPosition: 'top'})
+    }
+
     onSubmit(): void {
         if (this.isBillingShippingAddressSame)
             this.copyBillingToShippingAddressValues();
 
         this.formSubmitSubject$.next();
 
-        if (this.mainFormGroup.invalid) {
-            // this.focusOnInvalidField();
+        if (this.mainFormGroup.invalid)
             return;
-        }
 
-        this.sendLoginHttpRequest();
+        this.sendCreateAccountHttpRequest();
     }
 
     private copyBillingToShippingAddressValues() {
         this.shippingAddressFormGroup.patchValue(this.billingAddressFormGroup.value);
     }
 
-    // private focusOnInvalidField() {
-    //     if (this.mainFormGroup.controls['login'].invalid) {
-    //         this.renderer.selectRootElement('#login').focus();
-    //     } else if (this.mainFormGroup.controls['password'].invalid) {
-    //         this.renderer.selectRootElement('#password').focus();
-    //     }
-    // }
-
     onCheckboxClick() {
         this.isBillingShippingAddressSame = !this.isBillingShippingAddressSame;
     }
 
-    private sendLoginHttpRequest() {
+    private sendCreateAccountHttpRequest() {
         let addresses: CreateAccountAddressModel[] = [];
 
         addresses.push(new CreateAccountAddressModel(

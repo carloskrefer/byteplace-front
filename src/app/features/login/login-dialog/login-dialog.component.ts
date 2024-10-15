@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedDialogBaseComponent } from '../../../shared/shared-dialog-base/shared-dialog-base.component';
-import { LoginFormComponent } from '../login-form/login-form.component';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
@@ -14,13 +13,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthRequestBodyModel } from '../../../core/models/auth-request-body.model';
 import { SharedFormFieldEmailComponent } from '../../../shared/shared-form-field/shared-form-field-email/shared-form-field-email.component';
 import { SharedFormFieldPasswordComponent } from '../../../shared/shared-form-field/shared-form-field-password/shared-form-field-password.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login-dialog',
   standalone: true,
   imports: [
     SharedDialogBaseComponent,
-    LoginFormComponent,
     AsyncPipe,
     MatProgressSpinnerModule,
     SharedMessageBarComponent,
@@ -49,12 +48,13 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
 
     constructor(
         private authService: AuthService,
-        private dialogRef: MatDialogRef<SharedDialogBaseComponent>
+        private dialogRef: MatDialogRef<SharedDialogBaseComponent>,
+        private snackbar: MatSnackBar
     ) {}
 
     ngOnInit(): void {
         this.setObservables();
-        this.setSubscriptionForClosingDialog();
+        this.subscribeToAuthSuccess();
         this.configureForm();
     }
 
@@ -66,18 +66,27 @@ export class LoginDialogComponent implements OnInit, OnDestroy {
         this.formSubmit$ = this.formSubmitSubject$.asObservable();
     }
 
-    private setSubscriptionForClosingDialog() {
+    private subscribeToAuthSuccess() {
         this.hasAuthSucceededSubscription =
             this
                 .hasAuthSucceeded$
                 .subscribe(hasAuthSucceeded => {
                     if (hasAuthSucceeded)
-                        this.onCloseDialog();
+                        this.onAuthSuccess();
         });
     }
 
     private configureForm(): void {
         this.myForm = new FormGroup({});
+    }
+
+    onAuthSuccess() {
+        this.showSuccessSnackbar();
+        this.onCloseDialog();
+    }
+
+    showSuccessSnackbar() {
+        this.snackbar.open('Login realizado com sucesso!', "Ok", {duration: 5000, verticalPosition: 'top'})
     }
 
     onCloseDialog() {
